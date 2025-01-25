@@ -11,11 +11,18 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // متن خوش‌آمدگویی
             Text(
               "Welcome to MAK Bites!",
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40), // فاصله بین متن و دکمه‌ها
+
+            // دکمه Free Account
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -23,9 +30,21 @@ class WelcomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => FreeMenuScreen()),
                 );
               },
-              child: Text("Free Account"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.orange, // رنگ پس‌زمینه دکمه
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
+                ),
+              ),
+              child: Text(
+                "Free Account",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20), // فاصله بین دکمه‌ها
+
+            // دکمه Premium Account
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -33,7 +52,17 @@ class WelcomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PremiumMenuScreen()),
                 );
               },
-              child: Text("Premium Account"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green, // رنگ پس‌زمینه دکمه
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
+                ),
+              ),
+              child: Text(
+                "Premium Account",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
           ],
         ),
