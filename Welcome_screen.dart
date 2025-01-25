@@ -8,7 +8,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2B4D3C), // رنگ پس‌زمینه
+      backgroundColor: Colors.white, // رنگ پس‌زمینه
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
             Text(
               "Welcome to MAK Bites!",
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black87,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -41,7 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange, // رنگ پس‌زمینه دکمه
+                backgroundColor: Colors.deepOrange, // رنگ پس‌زمینه دکمه
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // رنگ پس‌زمینه دکمه
+                backgroundColor: Color(0xFF2B4D3C), // رنگ پس‌زمینه دکمه
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
