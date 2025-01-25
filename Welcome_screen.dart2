@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'free_menu_screen.dart'; // صفحه‌ای که کاربر پس از ثبت‌نام به آن منتقل می‌شود
+
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // متن خوش‌آمدگویی
+            Text(
+              'Welcome to MAK Bites',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87, // متن با رنگ black87
+              ),
+            ),
+            const SizedBox(height: 20),
+            // دکمه Free Account
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange, // رنگ Deep Orange
+              ),
+              onPressed: () async {
+                try {
+                  // ورود ناشناس
+                  final userCredential = await FirebaseAuth.instance.signInAnonymously();
+                  print('User signed in anonymously: ${userCredential.user!.uid}');
+                  
+                  // هدایت به صفحه Free Menu
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FreeMenuScreen()),
+                  );
+                } catch (e) {
+                  print('Error signing in anonymously: $e');
+                }
+              },
+              child: const Text('Free Account'),
+            ),
+            const SizedBox(height: 20),
+            // دکمه Premium Account
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2B4D3C), // همان سبز قبلی
+              ),
+              onPressed: () {
+                // عملکرد دکمه Premium (به صفحه ثبت‌نام Premium بروید)
+                print('Premium Account button pressed');
+              },
+              child: const Text('Premium Account'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
