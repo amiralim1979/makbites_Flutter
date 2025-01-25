@@ -32,15 +32,18 @@ class WelcomeScreen extends StatelessWidget {
                 try {
                   // ورود ناشناس
                   final userCredential = await FirebaseAuth.instance.signInAnonymously();
-                  print('User signed in anonymously: ${userCredential.user!.uid}');
+                  debugPrint('User signed in anonymously: ${userCredential.user!.uid}');
                   
+                  // قبل از هدایت به صفحه جدید چک کنید که ویجت هنوز درخت را ترک نکرده باشد
+                  if (!mounted) return;
+
                   // هدایت به صفحه Free Menu
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => FreeMenuScreen()),
                   );
                 } catch (e) {
-                  print('Error signing in anonymously: $e');
+                  debugPrint('Error signing in anonymously: $e');
                 }
               },
               child: const Text('Free Account'),
@@ -53,7 +56,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               onPressed: () {
                 // عملکرد دکمه Premium (به صفحه ثبت‌نام Premium بروید)
-                print('Premium Account button pressed');
+                debugPrint('Premium Account button pressed');
               },
               child: const Text('Premium Account'),
             ),
