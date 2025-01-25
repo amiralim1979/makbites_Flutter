@@ -13,6 +13,14 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // تصویر لوگو
+            Image.asset(
+              'assets/images/logo.png',  // مسیر تصویر لوگو
+              height: 150,  // اندازه ارتفاع
+              width: 150,   // اندازه عرض
+            ),
+            SizedBox(height: 40), // فاصله بین تصویر و متن
+
             // متن خوش‌آمدگویی
             Text(
               "Welcome to MAK Bites!",
