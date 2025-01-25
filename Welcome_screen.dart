@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'free_menu_screen.dart';
-import 'premium_menu_screen.dart';
+import 'package:makbites/screens/free_menu_screen.dart';
+import 'package:makbites/screens/premium_menu_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.orange, // رنگ پس‌زمینه دکمه
+                backgroundColor: Colors.orange, // رنگ پس‌زمینه دکمه
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
@@ -53,7 +55,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.green, // رنگ پس‌زمینه دکمه
+                backgroundColor: Colors.green, // رنگ پس‌زمینه دکمه
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
