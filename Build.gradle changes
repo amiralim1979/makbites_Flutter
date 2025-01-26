@@ -1,0 +1,10 @@
+android {
+    compileSdkVersion 33 // مطمئن شوید که این عدد 33 یا بیشتر است
+    defaultConfig {
+        applicationId "com.example.makbitesv1"
+        minSdkVersion 23 // نسخه 23 را تنظیم کنید
+        targetSdkVersion 33 // مطمئن شوید که این عدد با نسخه compileSdk مطابقت دارد
+        versionCode 1
+        versionName "1.0"
+    }
+}
