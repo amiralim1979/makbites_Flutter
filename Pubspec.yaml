@@ -12,8 +12,12 @@ dependencies:
   provider: ^6.1.2
   http: ^1.0.0
   shared_preferences: ^2.1.0
-  intl: ^0.20.1
+  intl: ^0.20.2
   cupertino_icons: ^1.0.8
+  firebase_core: ^3.10.1
+  firebase_storage: ^12.4.1
+  firebase_auth: ^5.4.1 #احراز هویت
+  cloud_firestore: ^5.4.0
 
 dev_dependencies:
   flutter_test:
