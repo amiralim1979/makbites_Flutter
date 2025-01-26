@@ -14,16 +14,40 @@ android {
 
     defaultConfig {
         applicationId = "com.example.makbites"
-        // تغییر minSdkVersion به 23
-        minSdk = 23  // تغییر به 23
+        minSdk = 23 // حداقل نسخه اندروید برای پشتیبانی Firebase
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled = true // فعال کردن MultiDex برای سازگاری با Firebase
     }
 
     buildTypes {
         release {
             signingConfig = signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // پشتیبانی از MultiDex
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
+
+dependencies {
+    // وابستگی‌های Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.0.0') // BOM مدیریت نسخه‌ها
+    implementation 'com.google.firebase:firebase-auth' // Firebase Authentication
+    implementation 'com.google.firebase:firebase-firestore' // Firestore (در صورت نیاز)
+    implementation 'com.google.firebase:firebase-analytics' // Firebase Analytics
+    implementation 'com.google.firebase:firebase-storage' // Firebase Storage (در صورت نیاز)
+
+    // MultiDex
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
+apply plugin: 'com.google.gms.google-services' // افزودن پلاگین Google Services
