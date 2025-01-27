@@ -1,12 +1,19 @@
 pluginManagement {
     def flutterSdkPath = {
+        // خواندن مسیر Flutter SDK از فایل local.properties
         def properties = new Properties()
-        file("local.properties").withInputStream { properties.load(it) }
+        File localPropertiesFile = file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.withInputStream { properties.load(it) }
+        } else {
+            throw new FileNotFoundException("File 'local.properties' not found. Please ensure Flutter SDK is properly configured.")
+        }
         def flutterSdkPath = properties.getProperty("flutter.sdk")
-        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
+        assert flutterSdkPath != null : "flutter.sdk not set in local.properties"
         return flutterSdkPath
     }()
 
+    // معرفی Flutter tools به Gradle
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
@@ -16,10 +23,12 @@ pluginManagement {
     }
 }
 
+// اضافه کردن پلاگین‌های مورد نیاز
 plugins {
     id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-    id "com.android.application" version "8.1.0" apply false
-    id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+    id "com.android.application" version "8.3.0" apply false // نسخه 8.3 به جای 8.1
+    id "org.jetbrains.kotlin.android" version "1.9.10" apply false // ارتقا نسخه Kotlin
 }
 
-include ":app"
+// معرفی ماژول اپلیکیشن
+include(":app")
