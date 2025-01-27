@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+
+class WelcomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white, // رنگ پس‌زمینه سفید
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // لوگو
+            Image.asset(
+              'assets/logo.png', // مسیر لوگو را مطابق فایل‌های خود تنظیم کنید
+              height: 150,
+            ),
+            SizedBox(height: 20),
+
+            // متن خوش‌آمدگویی
+            Text(
+              'به MAK Bites خوش آمدید',
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.black87, // رنگ متن خوش‌آمدگویی
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 40),
+
+            // دکمه Free Account
+            ElevatedButton(
+              onPressed: () {
+                // قابلیت استفاده یک هفته‌ای از پریمیوم
+                Navigator.pushNamed(context, '/free_menu');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange, // رنگ دکمه Free Account
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              ),
+              child: Text(
+                'Free Account',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // دکمه Premium Account
+            ElevatedButton(
+              onPressed: () {
+                // انتقال به صفحه امکانات پریمیوم
+                Navigator.pushNamed(context, '/premium_menu');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF2B4D3C), // رنگ دکمه Premium Account
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              ),
+              child: Text(
+                'Premium Account',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
