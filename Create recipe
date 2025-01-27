@@ -1,44 +1,54 @@
 import 'package:flutter/material.dart';
 
 class CreateRecipePage extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ingredientsController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Recipe'),
+        title: Text('Create Custom Recipe'),
+        backgroundColor: Color(0xFF2B4D3C), // رنگ سبز
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Enter Recipe Name:',
+              style: TextStyle(fontSize: 16, color: Colors.black), // متن مشکی
+            ),
             TextField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Recipe Name'),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Recipe Name',
+              ),
+              style: TextStyle(color: Colors.black), // رنگ متن فیلد مشکی
             ),
             SizedBox(height: 16),
+            Text(
+              'Enter Ingredients:',
+              style: TextStyle(fontSize: 16, color: Colors.black), // متن مشکی
+            ),
             TextField(
-              controller: _ingredientsController,
-              decoration: InputDecoration(labelText: 'Ingredients'),
-              maxLines: 5,
+              maxLines: 4,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Ingredients',
+              ),
+              style: TextStyle(color: Colors.black), // رنگ متن فیلد مشکی
             ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                final name = _nameController.text;
-                final ingredients = _ingredientsController.text;
-
-                // ذخیره یا پردازش رسپی
-                print('Recipe Name: $name');
-                print('Ingredients: $ingredients');
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Recipe "$name" created successfully!')),
-                );
+                print('Recipe created');
               },
-              child: Text('Save Recipe'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF2B4D3C),
+              ),
+              child: Text(
+                'Save Recipe',
+                style: TextStyle(color: Colors.white), // رنگ متن سفید
+              ),
             ),
           ],
         ),
