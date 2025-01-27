@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+
+class CreateRecipePage extends StatelessWidget {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _ingredientsController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Create Recipe'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Recipe Name'),
+            ),
+            SizedBox(height: 16),
+            TextField(
+              controller: _ingredientsController,
+              decoration: InputDecoration(labelText: 'Ingredients'),
+              maxLines: 5,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                final name = _nameController.text;
+                final ingredients = _ingredientsController.text;
+
+                // ذخیره یا پردازش رسپی
+                print('Recipe Name: $name');
+                print('Ingredients: $ingredients');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Recipe "$name" created successfully!')),
+                );
+              },
+              child: Text('Save Recipe'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
