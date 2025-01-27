@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import 'Premium_menu.dart';
+
+class WelcomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white, // رنگ پس‌زمینه صفحه سفید
+      appBar: AppBar(
+        title: Text('MAK Bites', style: TextStyle(color: Colors.black87)),
+        backgroundColor: Colors.white,
+        elevation: 0, // حذف سایه
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black87),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // لوگو
+            Image.asset(
+              'assets/images/logo.png', // مسیر فایل لوگو
+              width: 150,
+              height: 150,
+            ),
+            SizedBox(height: 24),
+            // متن خوش‌آمدگویی
+            Text(
+              'Welcome to MAK Bites!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 32),
+            // دکمه Free Account
+            ElevatedButton(
+              onPressed: () {
+                // در اینجا به صفحه FreeMenu انتقال داده خواهد شد
+                print('Free Account button clicked');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepOrange, // رنگ دکمه Free
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              ),
+              child: Text(
+                'Free Account',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
+            SizedBox(height: 16),
+            // دکمه Premium Account
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PremiumMenu()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF2B4D3C), // رنگ دکمه Premium
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              ),
+              child: Text(
+                'Premium Account',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
