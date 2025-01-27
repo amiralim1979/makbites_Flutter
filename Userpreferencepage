@@ -1,0 +1,140 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+class UserPreferencesPage extends StatefulWidget {
+  @override
+  _UserPreferencesPageState createState() => _UserPreferencesPageState();
+}
+
+class _UserPreferencesPageState extends State<UserPreferencesPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // اطلاعات کاربر
+  final TextEditingController _allergiesController = TextEditingController();
+  final TextEditingController _likesController = TextEditingController();
+  final TextEditingController _dislikesController = TextEditingController();
+
+  bool _isVegan = false;
+  bool _isVegetarian = false;
+  bool _hasSpecialDiet = false;
+  bool _likesSpicyFood = false;
+
+  void _savePreferences() async {
+    try {
+      final User? user = _auth.currentUser;
+
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).update({
+          'allergies': _allergiesController.text.split(',').map((e) => e.trim()).toList(),
+          'likes': _likesController.text.split(',').map((e) => e.trim()).toList(),
+          'dislikes': _dislikesController.text.split(',').map((e) => e.trim()).toList(),
+          'isVegan': _isVegan,
+          'isVegetarian': _isVegetarian,
+          'hasSpecialDiet': _hasSpecialDiet,
+          'likesSpicyFood': _likesSpicyFood,
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Preferences saved successfully!')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving preferences: $e')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Preferences'),
+        backgroundColor: Color(0xFF2B4D3C),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            Text(
+              'Allergies (comma-separated):',
+              style: TextStyle(fontSize: 16),
+            ),
+            TextField(
+              controller: _allergiesController,
+              decoration: InputDecoration(hintText: 'e.g., peanuts, lactose'),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Foods You Like (comma-separated):',
+              style: TextStyle(fontSize: 16),
+            ),
+            TextField(
+              controller: _likesController,
+              decoration: InputDecoration(hintText: 'e.g., mushrooms, seafood'),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Foods You Dislike (comma-separated):',
+              style: TextStyle(fontSize: 16),
+            ),
+            TextField(
+              controller: _dislikesController,
+              decoration: InputDecoration(hintText: 'e.g., eggplant, spicy foods'),
+            ),
+            SizedBox(height: 16),
+            SwitchListTile(
+              title: Text('Are you Vegan?'),
+              value: _isVegan,
+              onChanged: (value) {
+                setState(() {
+                  _isVegan = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Are you Vegetarian?'),
+              value: _isVegetarian,
+              onChanged: (value) {
+                setState(() {
+                  _isVegetarian = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Do you have a special diet?'),
+              value: _hasSpecialDiet,
+              onChanged: (value) {
+                setState(() {
+                  _hasSpecialDiet = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text('Do you like spicy food?'),
+              value: _likesSpicyFood,
+              onChanged: (value) {
+                setState(() {
+                  _likesSpicyFood = value;
+                });
+              },
+            ),
+            SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _savePreferences,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF2B4D3C),
+              ),
+              child: Text(
+                'Save Preferences',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
