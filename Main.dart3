@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'Welcome_page.dart';
+import 'Free_menu.dart';
+import 'Premium_menu.dart';
+
+void main() {
+  runApp(MAKBitesApp());
+}
+
+class MAKBitesApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MAK Bites',
+      theme: ThemeData(primarySwatch: Colors.orange),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => WelcomePage(),
+        '/free_menu': (context) => FreeMenu(),
+        '/premium_menu': (context) => PremiumMenu(),
+      },
+    );
+  }
+}
