@@ -25,10 +25,13 @@ class PremiumMenu extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF2B4D3C),
               ),
-              child: Text('Create Custom Recipe'),
+              child: Text(
+                'Create Custom Recipe',
+                style: TextStyle(color: Colors.white), // رنگ متن سفید
+              ),
             ),
             SizedBox(height: 16),
-            // گزینه دوم: پیشنهاد رسپی و رستوران (فعلاً خالی)
+            // گزینه دوم: پیشنهاد رسپی و رستوران
             ElevatedButton(
               onPressed: () {
                 print('Food image analysis clicked');
@@ -36,7 +39,10 @@ class PremiumMenu extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF2B4D3C),
               ),
-              child: Text('Analyze Food Image'),
+              child: Text(
+                'Analyze Food Image',
+                style: TextStyle(color: Colors.white), // رنگ متن سفید
+              ),
             ),
             SizedBox(height: 16),
             // گزینه سوم: پیشنهاد غذا براساس حس و حال
@@ -47,7 +53,10 @@ class PremiumMenu extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF2B4D3C),
               ),
-              child: Text('Mood-Based Recipe Suggestion'),
+              child: Text(
+                'Mood-Based Recipe Suggestion',
+                style: TextStyle(color: Colors.white), // رنگ متن سفید
+              ),
             ),
           ],
         ),
