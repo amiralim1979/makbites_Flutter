@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+import 'auth_service.dart';
+
+class PremiumSignUpPage extends StatefulWidget {
+  @override
+  _PremiumSignUpPageState createState() => _PremiumSignUpPageState();
+}
+
+class _PremiumSignUpPageState extends State<PremiumSignUpPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
+
+  // ثبت‌نام پریمیوم
+  void _signUp() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    var user = await _authService.signUp(email, password);
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, '/preferences');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during signup')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Premium Sign Up')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            ElevatedButton(
+              onPressed: _signUp,
+              child: Text('Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
