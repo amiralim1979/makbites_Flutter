@@ -23,7 +23,7 @@ class UserRecipePage extends StatelessWidget {
               return ListTile(
                 title: Text(recipe['name']),
                 subtitle: Text(
-                  'تاریخ ثبت: ${recipe['timestamp'] != null ? (recipe['timestamp'] as Timestamp).toDate().toString() : "نامشخص"}',
+                  'Date: ${recipe['timestamp'] != null ? (recipe['timestamp'] as Timestamp).toDate().toString() : "No Date"}',
                 ),
               );
             },
