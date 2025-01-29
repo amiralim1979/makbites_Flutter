@@ -1,25 +1,90 @@
-Future<void> saveRecipe() async {
-  try {
-    await FirebaseFirestore.instance.collection('recipes').add({
-      'name': nameController.text,
-      'ingredients': ingredientsController.text,
-      'foodType': selectedFoodType, 
-      'preferences': selectedPreferences,
-      'instructions': instructionsController.text,
-      'imageUrl': imageUrl ?? '',
-      'createdBy': userId, 
-      'timestamp': FieldValue.serverTimestamp(), // مقداردهی خودکار زمان
-    });
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Recipe saved successfully!')),
-    );
+class CreateRecipePage extends StatefulWidget {
+  @override
+  _CreateRecipePageState createState() => _CreateRecipePageState();
+}
 
-    Navigator.pop(context);
-  } catch (error) {
-    print("Error saving recipe: $error");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to save recipe')),
+class _CreateRecipePageState extends State<CreateRecipePage> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController ingredientsController = TextEditingController();
+  final TextEditingController instructionsController = TextEditingController();
+  String selectedFoodType = 'Appetizer';
+  String selectedPreferences = '';
+  String imageUrl = '';
+  String userId = 'sampleUserId'; // باید از لاگین کاربر دریافت بشه
+
+  Future<void> saveRecipe() async {
+    try {
+      await FirebaseFirestore.instance.collection('recipes').add({
+        'name': nameController.text,
+        'ingredients': ingredientsController.text,
+        'foodType': selectedFoodType,
+        'preferences': selectedPreferences,
+        'instructions': instructionsController.text,
+        'imageUrl': imageUrl ?? '',
+        'createdBy': userId,
+        'timestamp': FieldValue.serverTimestamp(), // مقداردهی خودکار زمان
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Recipe saved successfully!')),
+      );
+      
+      Navigator.pop(context);
+    } catch (error) {
+      print("Error saving recipe: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save recipe')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Create Recipe'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: 'Recipe Name'),
+            ),
+            TextField(
+              controller: ingredientsController,
+              decoration: InputDecoration(labelText: 'Ingredients'),
+            ),
+            TextField(
+              controller: instructionsController,
+              decoration: InputDecoration(labelText: 'Instructions'),
+            ),
+            DropdownButton<String>(
+              value: selectedFoodType,
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedFoodType = newValue!;
+                });
+              },
+              items: ['Appetizer', 'Main', 'Dessert']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            ElevatedButton(
+              onPressed: saveRecipe,
+              child: Text('Save Recipe'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
