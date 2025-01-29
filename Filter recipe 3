@@ -35,7 +35,7 @@ class _FilterRecipesPageState extends State<FilterRecipesPage> {
               stream: FirebaseFirestore.instance
                   .collection('recipes')
                   .where('foodType', isEqualTo: _selectedFoodType)
-                  .orderBy('timestamp', descending: true) // مرتب‌سازی از جدیدترین به قدیمی‌ترین
+                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -49,7 +49,7 @@ class _FilterRecipesPageState extends State<FilterRecipesPage> {
                     return ListTile(
                       title: Text(recipe['name']),
                       subtitle: Text(
-                        'تاریخ ثبت: ${recipe['timestamp'] != null ? (recipe['timestamp'] as Timestamp).toDate().toString() : "نامشخص"}',
+                        'Date: ${recipe['timestamp'] != null ? (recipe['timestamp'] as Timestamp).toDate().toString() : "No Date"}',
                       ),
                     );
                   },
