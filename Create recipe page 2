@@ -8,46 +8,71 @@ class FilterRecipesPage extends StatefulWidget {
 
 class _FilterRecipesPageState extends State<FilterRecipesPage> {
   String _selectedFoodType = 'All';
+  final List<String> foodTypes = ['All', 'Appetizer', 'Main', 'Dessert', 'Snack', 'Pastry', 'Bread'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Filter Recipes')),
+      appBar: AppBar(
+        title: Text('Filter Recipes'),
+        backgroundColor: Color(0xFF2B4D3C), // رنگ سبز هماهنگ با UI
+      ),
       body: Column(
         children: [
-          DropdownButton<String>(
-            value: _selectedFoodType,
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedFoodType = newValue!;
-              });
-            },
-            items: <String>['All', 'Appetizer', 'Main', 'Dessert']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: DropdownButton<String>(
+              value: _selectedFoodType,
+              isExpanded: true,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedFoodType = newValue!;
+                });
+              },
+              items: foodTypes.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
           ),
           Expanded(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('recipes')
-                  .where('foodType', isEqualTo: _selectedFoodType)
-                  .snapshots(),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: (_selectedFoodType == 'All')
+                  ? FirebaseFirestore.instance.collection('recipes').snapshots()
+                  : FirebaseFirestore.instance
+                      .collection('recipes')
+                      .where('foodType', isEqualTo: _selectedFoodType)
+                      .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No recipes found'));
+                }
+
                 var recipes = snapshot.data!.docs;
+
                 return ListView.builder(
                   itemCount: recipes.length,
                   itemBuilder: (context, index) {
                     var recipe = recipes[index];
-                    return ListTile(
-                      title: Text(recipe['name']),
-                      subtitle: Text(recipe['ingredients']),
+                    String recipeName = recipe['name'] ?? 'Unknown Recipe';
+                    String ingredients = recipe['ingredients'] ?? 'No ingredients listed';
+
+                    return Card(
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      elevation: 3,
+                      child: ListTile(
+                        title: Text(recipeName, style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(ingredients, maxLines: 2, overflow: TextOverflow.ellipsis),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: () {
+                          // TODO: افزودن جزئیات بیشتر هنگام کلیک روی هر رسپی
+                        },
+                      ),
                     );
                   },
                 );
