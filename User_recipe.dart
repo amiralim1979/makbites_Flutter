@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'edit_recipe_page.dart';
 
 class UserRecipePage extends StatefulWidget {
   @override
@@ -6,63 +8,55 @@ class UserRecipePage extends StatefulWidget {
 }
 
 class _UserRecipePageState extends State<UserRecipePage> {
-  // **لیست نمونه برای نمایش رسپی‌ها (در آینده به دیتابیس متصل می‌شود)**
-  final List<Map<String, dynamic>> userRecipes = [
-    {
-      'name': 'سالاد مدیترانه‌ای',
-      'ingredients': 'گوجه، خیار، زیتون، روغن زیتون، پنیر فتا',
-      'allergy': 'فاقد گلوتن، مناسب گیاهخواران',
-    },
-    {
-      'name': 'پاستا با سس قارچ',
-      'ingredients': 'پاستا، قارچ، خامه، سیر، جعفری',
-      'allergy': 'حاوی لبنیات، نامناسب برای وگان‌ها',
-    },
-    {
-      'name': 'سوپ عدس',
-      'ingredients': 'عدس، هویج، سیب‌زمینی، پیاز، لیمو',
-      'allergy': 'گیاهی، فاقد گلوتن',
-    },
-  ];
+  final CollectionReference recipesCollection = FirebaseFirestore.instance.collection('user_recipes');
+
+  void _deleteRecipe(String docId) {
+    recipesCollection.doc(docId).delete();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('رسپی حذف شد')));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('رسپی‌های کاربران پریمیوم', style: TextStyle(color: Colors.white)),
-        backgroundColor: Color(0xFF2B4D3C), // همان رنگ سبز پریمیوم
-        iconTheme: IconThemeData(color: Colors.white),
+        title: Text('📜 لیست رسپی‌های کاربران'),
+        backgroundColor: Color(0xFF2B4D3C),
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemCount: userRecipes.length,
-        itemBuilder: (context, index) {
-          final recipe = userRecipes[index];
-          return _recipeCard(
-            name: recipe['name'],
-            ingredients: recipe['ingredients'],
-            allergy: recipe['allergy'],
+      body: StreamBuilder(
+        stream: recipesCollection.snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+
+          return ListView(
+            children: snapshot.data!.docs.map((doc) {
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: ListTile(
+                  title: Text(doc['name'], style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text('نوع غذا: ${doc['foodType']} | پریفرنس: ${doc['allergy']}'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit, color: Colors.blue),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditRecipePage(doc: doc)),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteRecipe(doc.id),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
           );
         },
-      ),
-    );
-  }
-
-  Widget _recipeCard({required String name, required String ingredients, required String allergy}) {
-    return Card(
-      elevation: 4,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        title: Text(name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 4),
-            Text('🛒 مواد اولیه: $ingredients', style: TextStyle(fontSize: 14)),
-            SizedBox(height: 4),
-            Text('⚠️ آلرژی / پریفرنس: $allergy', style: TextStyle(fontSize: 14, color: Colors.red)),
-          ],
-        ),
       ),
     );
   }
