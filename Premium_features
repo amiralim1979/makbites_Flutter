@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+
+class PremiumFeaturesPage extends StatefulWidget {
+  @override
+  _PremiumFeaturesPageState createState() => _PremiumFeaturesPageState();
+}
+
+class _PremiumFeaturesPageState extends State<PremiumFeaturesPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ویژگی‌های پریمیوم', style: TextStyle(color: Colors.white)),
+        backgroundColor: Color(0xFF2B4D3C), // همان رنگ سبز پریمیوم
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _featureItem(
+              title: 'تعریف و ذخیره رسپی شخصی',
+              description: 'امکان ثبت و نامگذاری رسپی اختصاصی و اضافه کردن به منو.',
+              icon: Icons.restaurant_menu,
+            ),
+            _featureItem(
+              title: 'تحلیل مواد غذایی داخل یخچال',
+              description: 'ارسال عکس مواد غذایی و دریافت رسپی‌های پیشنهادی + پیشنهاد رستوران و شف‌های نزدیک.',
+              icon: Icons.camera_alt,
+            ),
+            _featureItem(
+              title: 'تحلیل کالری و ارزش غذایی',
+              description: 'آپلود تصویر غذا و دریافت اطلاعات کالری، چربی، پروتئین و قند موجود در آن.',
+              icon: Icons.analytics,
+            ),
+            _featureItem(
+              title: 'پیشنهاد غذا بر اساس حال و هوا',
+              description: 'ثبت حس و حال روزانه و دریافت پیشنهاد غذای متناسب.',
+              icon: Icons.mood,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _featureItem({required String title, required String description, required IconData icon}) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: Icon(icon, color: Color(0xFF2B4D3C)), // رنگ سبز پریمیوم
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(description),
+      ),
+    );
+  }
+}
