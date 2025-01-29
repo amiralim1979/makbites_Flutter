@@ -1,0 +1,25 @@
+Future<void> saveRecipe() async {
+  try {
+    await FirebaseFirestore.instance.collection('recipes').add({
+      'name': nameController.text,
+      'ingredients': ingredientsController.text,
+      'foodType': selectedFoodType, 
+      'preferences': selectedPreferences,
+      'instructions': instructionsController.text,
+      'imageUrl': imageUrl ?? '',
+      'createdBy': userId, 
+      'timestamp': FieldValue.serverTimestamp(), // مقداردهی خودکار زمان
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Recipe saved successfully!')),
+    );
+
+    Navigator.pop(context);
+  } catch (error) {
+    print("Error saving recipe: $error");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to save recipe')),
+    );
+  }
+}
