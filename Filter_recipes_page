@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class FilterRecipesPage extends StatefulWidget {
+  @override
+  _FilterRecipesPageState createState() => _FilterRecipesPageState();
+}
+
+class _FilterRecipesPageState extends State<FilterRecipesPage> {
+  String selectedFoodType = 'همه';
+  String selectedPreference = 'همه';
+
+  final List<String> foodTypes = ['همه', 'غذای اصلی', 'پیش‌غذا', 'دسر', 'اسنک', 'نان', 'پیستری', 'نوشیدنی', 'سالاد'];
+  final List<String> preferences = ['همه', 'گیاهخواری', 'وگان', 'فاقد گلوتن', 'حاوی لبنیات', 'بدون گوشت'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('🔎 فیلتر رسپی‌ها')),
+      body: Column(
+        children: [
+          DropdownButton<String>(
+            value: selectedFoodType,
+            items: foodTypes.map((String type) {
+              return DropdownMenuItem<String>(value: type, child: Text(type));
+            }).toList(),
+            onChanged: (value) => setState(() => selectedFoodType = value!),
+          ),
+          StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('user_recipes').snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+
+              var filteredRecipes = snapshot.data!.docs.where((doc) {
+                return (selectedFoodType == 'همه' || doc['foodType'] == selectedFoodType);
+              }).toList();
+
+              return Expanded(
+                child: ListView(
+                  children: filteredRecipes.map((doc) {
+                    return ListTile(title: Text(doc['name']));
+                  }).toList(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
