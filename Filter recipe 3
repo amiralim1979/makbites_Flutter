@@ -1,0 +1,4 @@
+stream: FirebaseFirestore.instance
+  .collection('recipes')
+  .orderBy('timestamp', descending: true) // مرتب‌سازی از جدیدترین به قدیمی‌ترین
+  .snapshots(),
