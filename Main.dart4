@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'pages/welcome_page.dart'; // اطمینان از وجود این صفحه
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MAKBitesApp());
 }
 
@@ -10,26 +13,29 @@ class MAKBitesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MAK Bites',
-      supportedLocales: [
+      debugShowCheckedModeBanner: false, // حذف بنر Debug
+      supportedLocales: const [
         Locale('en', ''), // انگلیسی
         Locale('fa', ''), // فارسی
         Locale('pt', ''), // پرتغالی
       ],
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       localeResolutionCallback: (locale, supportedLocales) {
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale?.languageCode) {
-            return supportedLocale;
+        if (locale != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
           }
         }
-        return supportedLocales.first;
+        return const Locale('en', ''); // پیش‌فرض انگلیسی
       },
-      home: WelcomePage(),
+      home: const WelcomePage(),
     );
   }
 }
