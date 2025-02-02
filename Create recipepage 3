@@ -12,7 +12,7 @@ class _CreateRecipePageState extends State<CreateRecipePage> {
   final TextEditingController ingredientsController = TextEditingController();
   final TextEditingController instructionsController = TextEditingController();
   final TextEditingController imageUrlController = TextEditingController();
-  
+
   // متغیرهای مربوط به انتخاب‌ها
   String selectedFoodType = 'Appetizer';
   String selectedPreferences = 'Vegan'; // مثال
