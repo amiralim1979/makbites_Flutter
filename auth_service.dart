@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // ثبت‌نام کاربر
-  Future<User?> signUp(String email, String password) async {
+  // متد ثبت‌نام با ایمیل و رمز عبور
+  Future<User?> signUpWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -13,13 +12,13 @@ class AuthService {
       );
       return userCredential.user;
     } catch (e) {
-      print(e);
+      print("❌ Error in signUpWithEmail: $e");
       return null;
     }
   }
 
-  // ورود کاربر
-  Future<User?> signIn(String email, String password) async {
+  // متد ورود با ایمیل و رمز عبور
+  Future<User?> signInWithEmail(String email, String password) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -27,18 +26,13 @@ class AuthService {
       );
       return userCredential.user;
     } catch (e) {
-      print(e);
+      print("❌ Error in signInWithEmail: $e");
       return null;
     }
   }
 
-  // خروج کاربر
+  // متد خروج از حساب
   Future<void> signOut() async {
     await _auth.signOut();
-  }
-
-  // گرفتن اطلاعات کاربر فعلی
-  Future<User?> getCurrentUser() async {
-    return _auth.currentUser;
   }
 }
