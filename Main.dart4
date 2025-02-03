@@ -2,21 +2,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
-import 'welcome_page.dart'; // اطمینان از وجود این صفحه
-import 'firebase_options.dart'; // ✅ ضروری برای مقداردهی Firebase
+import 'welcome_page.dart';
+import 'firebase_options.dart'; // بررسی اینکه این فایل مقداردهی شده باشد
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // 🔹 مقداردهی صحیح Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, 
-  );
 
-  runApp(MAKBitesApp());
+  try {
+    // 🔹 مقداردهی Firebase و بررسی مقداردهی `firebase_options.dart`
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print("✅ Firebase مقداردهی شد!");
+  } catch (e, stackTrace) {
+    print("❌ خطا در مقداردهی Firebase: $e");
+    print(stackTrace);
+  }
+
+  runApp(const MAKBitesApp());
 }
 
 class MAKBitesApp extends StatelessWidget {
+  const MAKBitesApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,7 +51,7 @@ class MAKBitesApp extends StatelessWidget {
         }
         return const Locale('en', ''); // پیش‌فرض انگلیسی
       },
-      home: WelcomePage(),
+      home: const WelcomePage(),
     );
   }
 }
