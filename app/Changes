@@ -1,7 +1,31 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'  // برای Firebase
+}
+
 android {
     namespace "com.example.makbites"
-    compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdk 34  // مقدار مستقیم، نه از `flutter.compileSdkVersion`
+
+    defaultConfig {
+        applicationId "com.example.makbites"
+        minSdk 23
+        targetSdk 34  // مقدار مستقیم
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true  // برای پروژه‌های بزرگ
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -9,28 +33,9 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8" // مقدار درست برای JVM Target
+        jvmTarget = "1.8"
     }
 
-    defaultConfig {
-        applicationId "com.example.makbites"
-        minSdk 23
-        targetSdk flutter.targetSdkVersion
-        versionCode flutter.versionCode
-        versionName flutter.versionName
-        multiDexEnabled true // پشتیبانی از MultiDex
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    // پشتیبانی از MultiDex و حل مشکل ناسازگاری کتابخانه‌ها
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -45,13 +50,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-storage'
 
-    // MultiDex برای پروژه‌های دارای بیش از 64k متد
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    // حل مشکل FlutterActivity
-    implementation 'io.flutter:flutter_embedding:1.0.0'
+    implementation "androidx.core:core-ktx:1.12.0"  // رفع ارورهای احتمالی
 }
 
 // پلاگین‌های مورد نیاز
 apply plugin: 'com.google.gms.google-services'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle" // مهم برای هماهنگی با فلاتر
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
