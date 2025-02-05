@@ -1,53 +1,57 @@
 android {
-    namespace = "com.example.makbites"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace "com.example.makbites"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = "1.8" // مقدار درست برای JVM Target
     }
 
     defaultConfig {
-        applicationId = "com.example.makbites"
-        minSdk = 23 // حداقل نسخه اندروید برای پشتیبانی Firebase
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
-        multiDexEnabled = true // فعال کردن MultiDex برای سازگاری با Firebase
+        applicationId "com.example.makbites"
+        minSdk 23
+        targetSdk flutter.targetSdkVersion
+        versionCode flutter.versionCode
+        versionName flutter.versionName
+        multiDexEnabled true // پشتیبانی از MultiDex
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.debug
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    // پشتیبانی از MultiDex
+    // پشتیبانی از MultiDex و حل مشکل ناسازگاری کتابخانه‌ها
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
 
 dependencies {
-    // وابستگی‌های Firebase
-    implementation platform('com.google.firebase:firebase-bom:32.0.0') // BOM مدیریت نسخه‌ها
-    implementation 'com.google.firebase:firebase-auth' // Firebase Authentication
-    implementation 'com.google.firebase:firebase-firestore' // Firestore (در صورت نیاز)
-    implementation 'com.google.firebase:firebase-analytics' // Firebase Analytics
-    implementation 'com.google.firebase:firebase-storage' // Firebase Storage (در صورت نیاز)
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-storage'
 
-    // MultiDex
+    // MultiDex برای پروژه‌های دارای بیش از 64k متد
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // حل مشکل FlutterActivity
+    implementation 'io.flutter:flutter_embedding:1.0.0'
 }
 
-apply plugin: 'com.google.gms.google-services' // افزودن پلاگین Google Services
+// پلاگین‌های مورد نیاز
+apply plugin: 'com.google.gms.google-services'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle" // مهم برای هماهنگی با فلاتر
