@@ -1,3 +1,4 @@
+name: makbitesv1 # 🔹 نام پروژه را دقیقاً همان نامی که در AndroidManifest و build.gradle است، بگذارید!
 description: "A new Flutter project."
 publish_to: 'none'
 version: 1.0.0+1
