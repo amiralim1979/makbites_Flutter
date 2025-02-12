@@ -51,7 +51,7 @@ class MAKBitesApp extends StatelessWidget {
         }
         return const Locale('en', ''); // پیش‌فرض انگلیسی
       },
-      home: const WelcomePage(),
+      home: WelcomePage(),
     );
   }
 }
