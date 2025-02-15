@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Premium_menu.dart';
 
@@ -37,7 +38,6 @@ class WelcomePage extends StatelessWidget {
             // دکمه Free Account
             ElevatedButton(
               onPressed: () {
-                // در اینجا به صفحه FreeMenu انتقال داده خواهد شد
                 print('Free Account button clicked');
               },
               style: ElevatedButton.styleFrom(
@@ -67,9 +67,71 @@ class WelcomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
+            SizedBox(height: 32), // فاصله برای دکمه‌های تستی
+            // 🔹 دکمه تست ثبت‌نام
+            ElevatedButton(
+              onPressed: () => signUp(context, "test@example.com", "123456"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: Text("🔹 ثبت‌نام تستی"),
+            ),
+            SizedBox(height: 10),
+            // 🔹 دکمه تست ورود
+            ElevatedButton(
+              onPressed: () => signIn(context, "test@example.com", "123456"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: Text("🔹 ورود تستی"),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // 🔹 متد ثبت‌نام کاربر
+  void signUp(BuildContext context, String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("✅ ثبت‌نام موفق: UID: ${userCredential.user?.uid}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("❌ خطا در ثبت‌نام: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // 🔹 متد ورود کاربر
+  void signIn(BuildContext context, String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("✅ ورود موفق! UID: ${userCredential.user?.uid}"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("❌ خطا در ورود: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
