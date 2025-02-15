@@ -1,0 +1,44 @@
+name: makbitesv1
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  http: ^1.1.2
+  shared_preferences:
+    path: ./packages/shared_preferences
+  intl: ^0.19.0
+  cupertino_icons: ^1.0.8
+
+  # ✅ فایربیس از مسیر محلی
+  firebase_core:
+    path: ./packages/firebase_core
+  firebase_auth:
+    path: ./packages/firebase_auth
+  firebase_storage:
+    path: ./packages/firebase_storage
+  firebase_database:
+    path: ./packages/firebase_database
+  cloud_firestore:
+    path: ./packages/cloud_firestore
+
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  generate: true
+  assets:
+    - lib/l10n/
+    - assets/images/logo.png
+  uses-material-design: true
