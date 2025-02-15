@@ -12,21 +12,21 @@ dependencies:
   provider: ^6.1.2
   http: ^1.1.2
   shared_preferences:
-    path: ./packages/shared_preferences # 🔹 مسیر محلی
+    path: ./packages/shared_preferences/shared_preferences # 🔹 مسیر محلی
   intl: ^0.19.0
   cupertino_icons: ^1.0.8
 
   # ✅ جدیدترین نسخه‌های Firebase از مسیر محلی
   firebase_core:
-    path: ./packages/firebase_core
+    path: ./packages/firebase_core/firebase_core-3.11.0
   firebase_auth:
-    path: ./packages/firebase_auth
+    path: ./packages/firebase_auth/firebase_auth-5.4.1
   firebase_storage:
-    path: ./packages/firebase_storage
+    path: ./packages/firebase_storage/firebase_storage
   firebase_database:
-    path: ./packages/firebase_database
-  cloud_firestore:
-    path: ./packages/cloud_firestore
+    path: ./packages/firebase_database/firebase_database
+  cloud_firestore: ^5.6.3
+    #path: ./packages/cloud_firestore/cloud_firestore-5.6.3
 
   flutter_localizations:
     sdk: flutter
@@ -35,8 +35,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  flutterfire_cli:
-    path: ./packages/flutterfire_cli # 🔹 مسیر محلی
+  #flutterfire_cli:
+    #path: ./packages/flutterfire_cli # 🔹 مسیر محلی
 
 flutter:
   generate: true
