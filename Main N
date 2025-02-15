@@ -1,0 +1,43 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
+import 'welcome_page.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MAKBitesApp());
+}
+
+class MAKBitesApp extends StatelessWidget {
+  const MAKBitesApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MAK Bites',
+      debugShowCheckedModeBanner: false,
+      supportedLocales: [
+        const Locale('en', ''), // انگلیسی
+        const Locale('fa', ''), // فارسی
+        const Locale('pt', ''), // پرتغالی
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
+          }
+        }
+        return const Locale('en', ''); // پیش‌فرض انگلیسی
+      },
+      home: const WelcomePage(),
+    );
+  }
+}
